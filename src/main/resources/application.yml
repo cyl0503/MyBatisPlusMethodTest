@@ -1,15 +1,36 @@
 
 # DataSource Config
 spring:
+  # 配置数据源信息
   datasource:
-    # 配置数据源信息
     # type: com.zaxxer.hikari.HikariDataSource
     # 配置连接数据库的各个信息
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/mytest?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false
-    username: root
-    password: root
-    type: com.alibaba.druid.pool.DruidDataSource
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://127.0.0.1:3306/mytest?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false
+#    username: root
+#    password: root
+#    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      # 设置默认的数据源或者数据源组 默认值即为 master
+      primary: master # 主数据源
+      # 严格匹配数据源 默认：false
+      # true：未匹配到指定的数据源是抛异常 false：使用默认数据源
+      strict: false
+      # 多数据源配置
+      datasource:
+        master: # 主数据源
+          type: com.alibaba.druid.pool.DruidDataSource
+          url: jdbc:mysql://127.0.0.1:3306/mytest?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          username: root
+          password: root
+        slave_1: # 从数据源
+          type: com.alibaba.druid.pool.DruidDataSource
+          url: jdbc:mysql://127.0.0.1:3306/mytest1?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          username: root
+          password: root
+
 
 # 可以
 #logging:
@@ -20,11 +41,19 @@ spring:
 mybatis-plus:
   configuration:
     #默认不显示SQL日志
-    #    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+    # log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 驼峰
+    map-underscore-to-camel-case: true
   # mybatis plus 的全局配置
   global-config:
     db-config:
       # 设置实体类表的统一前缀
       table-prefix: t_
+      # id生成策略
+      id-type: ASSIGN_ID
+  # 配置类型别名所对应的包
+  type-aliases-package: com.cyl.entity
+  # 扫描通用枚举的包
+  type-enums-packages: com.cyl.enums
 

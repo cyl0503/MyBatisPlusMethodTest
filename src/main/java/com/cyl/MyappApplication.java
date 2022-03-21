@@ -7,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author cyl
  */
 @SpringBootApplication
-/** 扫描接口所在的包 */
-//@MapperScan("com.cyl.myapp.mapper")
 public class MyappApplication {
 
     public static void main(String[] args) {

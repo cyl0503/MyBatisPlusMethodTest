@@ -1,6 +1,7 @@
 package com.cyl;
 
 import com.cyl.entity.User;
+import com.cyl.service.ProductService;
 import com.cyl.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class MybatisPlusServiceTest {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ProductService productService;
 
     @Test
     public void testCount(){
@@ -52,5 +56,13 @@ public class MybatisPlusServiceTest {
         }
         boolean result = userService.saveBatch(list);
         System.out.println("result="+result);
+    }
+
+    @Test
+    public void test(){
+        // SELECT id,name,age,email,sex,is_deleted FROM t_user WHERE id=1 AND is_deleted=0
+        System.out.println(userService.getById(1L));
+        // SELECT id,name,price,version FROM t_product11 WHERE id=1
+        System.out.println(productService.getById(1L));
     }
 }

@@ -7,4 +7,10 @@
         from user
         where id = #{id}
     </select>
+
+    <select id="selectUserVo" resultType="com.cyl.entity.User">
+        select id,name,age,email
+        from t_user
+        where age > #{age}
+    </select>
 </mapper>

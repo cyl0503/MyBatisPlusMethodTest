@@ -1,5 +1,7 @@
 package com.cyl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.cyl.entity.User;
 import com.cyl.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,9 @@ public class TestDelete {
     public void testDeleteById(){
         System.out.println("----- deleteById method test ------");
         // DELETE FROM user WHERE id=1504726979303559169
-        int result = userMapper.deleteById(1504726979303559169L);
+        // 设计逻辑删除字段后：
+        // UPDATE t_user SET is_deleted=1 WHERE id=1505731891860635649 AND is_deleted=0
+        int result = userMapper.deleteById(1505731891860635649L);
         System.out.println("result="+result);
     }
 
@@ -56,4 +60,20 @@ public class TestDelete {
         int result = userMapper.deleteBatchIds(idList);
         System.out.println("result="+result);
     }
+
+    /**
+     * 通过条件构造器QueryWrapper删除
+     * 删除邮箱地址为null的用户信息
+     */
+    @Test
+    public void testDelete(){
+        System.out.println("----- delete method test ------");
+        //  UPDATE t_user SET is_deleted=1 WHERE is_deleted=0 AND (email IS NULL)
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        // 删除邮箱地址为null的用户信息
+        queryWrapper.isNull("email");
+        int result = userMapper.delete(queryWrapper);
+        System.out.println("result="+result);
+    }
+
 }
